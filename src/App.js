@@ -1,24 +1,31 @@
-import logo from './logo.svg';
+import { useState } from 'react';
 import './App.css';
+import { RepaymentScheduleForm } from './RepaymentSchedule/RepaymentScheduleForm.js';
+import { RepaymentScheduleTable } from './RepaymentSchedule/RepaymentScheduleTable.js';
+import { calculateRepaymentSchedule } from './RepaymentSchedule/repaymentScheduleCalculation.js';
 
 function App() {
+  const [rows, setRows] = useState([]);
+
+  const addValues = val => {
+    if (val === null) {
+      setRows([]);
+      return;
+    }
+    const rowsToDisplay = calculateRepaymentSchedule(val);
+    setRows(rowsToDisplay);
+  }
+
   return (
-    <div className="App">
+    <div className="App" >
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <div className="logo-wrapper">
+          <img src="https://meinfinn.de/verbraucher/img/finn-logo-ws.svg" className="App-logo" alt="logo" />
+        </div>
       </header>
-    </div>
+      <RepaymentScheduleForm addValues={addValues}></RepaymentScheduleForm>
+      <RepaymentScheduleTable rows={rows}></RepaymentScheduleTable>
+    </div >
   );
 }
 
